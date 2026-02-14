@@ -1,6 +1,12 @@
-# Smart Delivery ML Pipeline
+# SmartDispatch AI Engine
 
-Person-to-person delivery app with routing, dynamic pricing, and travel time prediction.
+The Python-based AI/ML Optimization Engine for SmartDispatch. This repo contains the code for dynamic pricing, route optimization, demand prediction, and agent hotspot identification. It exposes its functionalities via a FastAPI that the smartdispatch-backend can consume.
+
+---
+
+## Smart Delivery ML Pipeline
+
+Person-to-person delivery app with routing, dynamic pricing, and travel time prediction for Mumbai.
 
 ## Quick Start
 
