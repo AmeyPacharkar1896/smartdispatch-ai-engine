@@ -1,0 +1,76 @@
+{
+  "base_url": "http://localhost:8000",
+  "endpoints": [
+    {
+      "name": "health",
+      "method": "GET",
+      "path": "/health",
+      "params": {},
+      "response": {"status": "ok"}
+    },
+    {
+      "name": "route",
+      "method": "GET",
+      "path": "/route",
+      "params": {"origin_lat": 19.06, "origin_lng": 72.83, "dest_lat": 19.11, "dest_lng": 72.85},
+      "response": {"distance_m": 7367, "distance_km": 7.37, "duration_s": 497.7, "duration_min": 8.29}
+    },
+    {
+      "name": "distance",
+      "method": "GET",
+      "path": "/distance",
+      "params": {"origin_lat": 19.06, "origin_lng": 72.83, "dest_lat": 19.11, "dest_lng": 72.85},
+      "response": {"distance_km": 7.37, "duration_min": 8.29}
+    },
+    {
+      "name": "eta",
+      "method": "GET",
+      "path": "/eta",
+      "params": {"origin_lat": 19.06, "origin_lng": 72.83, "dest_lat": 19.11, "dest_lng": 72.85},
+      "response": {"distance_km": 7.37, "duration_min": 8.12, "departure_at": "2026-02-14T11:55:44.056631+00:00", "eta_at": "2026-02-14T12:03:51.256631+00:00"}
+    },
+    {
+      "name": "route_traffic_aware",
+      "method": "GET",
+      "path": "/route/traffic-aware",
+      "params": {"origin_lat": 19.06, "origin_lng": 72.83, "dest_lat": 19.11, "dest_lng": 72.85},
+      "response": {"distance_km": 7.37, "duration_min_osrm": 8.29, "duration_min_traffic_adjusted": 8.12}
+    },
+    {
+      "name": "predict_duration",
+      "method": "GET",
+      "path": "/predict/duration",
+      "params": {"distance_km": 15, "hour": 18, "day_of_week": 5},
+      "response": {"duration_min": 15.17}
+    },
+    {
+      "name": "predict_price",
+      "method": "GET",
+      "path": "/predict/price",
+      "params": {"distance_km": 10, "weight_kg": 2, "volume_l": 5, "urgency": "express"},
+      "response": {"price_inr": 259.17}
+    },
+    {
+      "name": "forecast_demand",
+      "method": "GET",
+      "path": "/forecast/demand",
+      "params": {"hour": 18, "day_of_week": 4},
+      "response": {"demand_forecast": 5.5}
+    },
+    {
+      "name": "hotspots",
+      "method": "GET",
+      "path": "/hotspots",
+      "params": {"top_n": 5},
+      "response": {
+        "hotspots": [
+          {"lat": 19.1688, "lng": 72.8591, "rank": 1},
+          {"lat": 18.9989, "lng": 72.8176, "rank": 2},
+          {"lat": 19.0896, "lng": 72.8656, "rank": 3},
+          {"lat": 18.9421, "lng": 72.831, "rank": 4},
+          {"lat": 19.1334, "lng": 72.913, "rank": 5}
+        ]
+      }
+    }
+  ]
+}
