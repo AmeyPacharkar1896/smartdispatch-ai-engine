@@ -9,8 +9,8 @@
     "n_test": 191,
     "unit": "min",
     "improvement_pct": 48.42552315701612,
-    "vs_baseline": "48.4% better than baseline",
-    "note": "ML adds hour/day_of_week - captures time-of-day effects vs static distance/speed"
+    "note": "ML adds hour/day_of_week - captures time-of-day effects vs static distance/speed",
+    "vs_baseline": "48.4% better than baseline"
   },
   "pricing": {
     "mae_ml": 16.32243282207696,
@@ -22,8 +22,8 @@
     "n_test": 1000,
     "unit": "INR",
     "improvement_pct": 90.53222604328616,
-    "vs_baseline": "90.5% better than baseline",
-    "note": "Baseline = distance-only. With real data, ML can learn demand/urgency patterns."
+    "note": "Baseline = distance-only. With real data, ML can learn demand/urgency patterns.",
+    "vs_baseline": "90.5% better than baseline"
   },
   "demand": {
     "mae_ml": 1.7625213923287308,
@@ -35,8 +35,8 @@
     "n_test": 34,
     "unit": "requests",
     "improvement_pct": 4.879797874322467,
-    "vs_baseline": "4.9% better than baseline",
-    "note": "LightGBM + cyclic hour + is_rush. Accuracy = % within 20% of actual (small counts)."
+    "note": "LightGBM + cyclic hour + is_rush. Accuracy = % within 20% of actual (small counts).",
+    "vs_baseline": "4.9% better than baseline"
   },
   "hotspots": {
     "silhouette": 0.758330352588812,

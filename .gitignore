@@ -51,3 +51,8 @@ logs/
 *.osm.pbf
 *.osrm
 *.osrm.*
+
+# React Native / Expo
+mobile/node_modules/
+mobile/dist/
+.expo/

@@ -35,6 +35,7 @@ async def distance(
     dest_lng: float = Query(...),
 ):
     """Get distance (km) and duration (min) only."""
+    print(f"Getting distance and duration for {origin_lat}, {origin_lng}, {dest_lat}, {dest_lng}")
     result = await get_distance_duration(origin_lat, origin_lng, dest_lat, dest_lng)
     if result is None:
         raise HTTPException(status_code=404, detail="Route not found")

@@ -63,3 +63,37 @@ curl "http://localhost:8000/predict/duration?distance_km=15&hour=18&day_of_week=
 # Predict price
 curl "http://localhost:8000/predict/price?distance_km=10&weight_kg=2&volume_l=5&urgency=express"
 ```
+
+---
+
+## Dev Backend (auth, orders, drivers)
+
+For local mobile development, a stub backend provides auth, orders, and driver APIs:
+
+```bash
+uvicorn backend.main:app --reload --port 8000
+```
+
+The mobile app expects the backend on port 8000 and the AI engine on port 8001. Run both in separate terminals:
+
+```bash
+# Terminal 1: Backend (auth, orders, drivers)
+uvicorn backend.main:app --reload --port 8000
+
+# Terminal 2: AI Engine (routing, pricing)
+uvicorn api.main:app --reload --port 8001
+```
+
+---
+
+## Mobile App (React Native)
+
+A React Native (Expo) app in `mobile/` provides Customer and Driver flows.
+
+```bash
+cd mobile
+npm install
+npm start
+```
+
+See [mobile/README.md](mobile/README.md) for setup and [docs/SMARTDISPATCH_ARCHITECTURE.md](docs/SMARTDISPATCH_ARCHITECTURE.md) for architecture.
