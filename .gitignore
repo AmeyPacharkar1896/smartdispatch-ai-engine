@@ -52,7 +52,7 @@ logs/
 *.osrm
 *.osrm.*
 
-# React Native / Expo
-mobile/node_modules/
-mobile/dist/
+**/node_modules/
+**/dist/
 .expo/
+*.log

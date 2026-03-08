@@ -153,7 +153,7 @@ export default function App() {
         step++
         const t = Math.min(step / steps, 1)
         setProgress(Math.round(t * 100))
-        setDriverPos(interpolate(from, to))
+        setDriverPos({ ...interpolate(from, to, t), label: 'Driver' })
         if (t >= 1) {
           clearInterval(id)
           setPhase('picked_up')
@@ -172,7 +172,7 @@ export default function App() {
         step++
         const t = Math.min(step / steps, 1)
         setProgress(Math.round(t * 100))
-        setDriverPos(interpolate(from, to))
+        setDriverPos({ ...interpolate(from, to, t), label: 'Driver' })
         if (t >= 1) {
           clearInterval(id)
           setPhase('delivered')
@@ -265,11 +265,9 @@ export default function App() {
                     {phase === 'delivered' ? 'Restart' : phase === 'order_placed' ? 'Driver Accepts' : phase === 'driver_assigned' ? 'Driver En Route' : phase === 'picked_up' ? 'Start Delivery' : 'Next'}
                   </button>
                 )}
-                {phase !== 'idle' && (
-                  <button className="btn btn-secondary" onClick={resetSimulation}>
-                    Reset
-                  </button>
-                )}
+                <button className="btn btn-secondary" onClick={resetSimulation}>
+                  Reset
+                </button>
               </>
             )}
           </div>
