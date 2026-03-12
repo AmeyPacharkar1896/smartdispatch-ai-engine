@@ -1,11 +1,20 @@
 from datetime import datetime, timezone, timedelta
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 
-from .routing import get_route, get_distance_duration
+from .routing import get_route, get_distance_duration, fallback_route_response
 from . import predict
 
 app = FastAPI(title="Delivery Routing API", version="1.0.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/health")
@@ -19,11 +28,16 @@ async def route(
     origin_lng: float = Query(..., description="Pickup longitude"),
     dest_lat: float = Query(..., description="Drop latitude"),
     dest_lng: float = Query(..., description="Drop longitude"),
+    overview: bool = Query(False, description="Include route geometry (coordinates) for map display"),
 ):
-    """Get shortest route with distance and duration."""
-    result = await get_route(origin_lat, origin_lng, dest_lat, dest_lng)
+    """Get shortest route with distance and duration. Use overview=true for polyline coordinates."""
+    result = await get_route(origin_lat, origin_lng, dest_lat, dest_lng, with_geometry=overview)
     if result is None:
+        if overview:
+            return fallback_route_response(origin_lat, origin_lng, dest_lat, dest_lng)
         raise HTTPException(status_code=404, detail="Route not found")
+    if overview and "coordinates" not in result:
+        result["coordinates"] = []
     return result
 
 

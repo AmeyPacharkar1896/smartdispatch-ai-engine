@@ -12,6 +12,8 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173).
 
+**For road-following routes:** Start the AI engine (port 8000) and OSRM (port 5001) first. The simulation will fetch real routes and animate the driver along the road network; if the API is unavailable it falls back to straight-line animation.
+
 ## Flow
 
 1. **Start Simulation** – Places an order; pickup and destination appear on the Mumbai map

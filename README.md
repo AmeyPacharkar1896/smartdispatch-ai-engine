@@ -16,13 +16,36 @@ Person-to-person delivery app with routing, dynamic pricing, and travel time pre
 pip install -r requirements.txt
 ```
 
-### 2. Start OSRM (Mumbai routing)
+### 2. Prepare OSRM data (one-time, Mumbai)
+
+You need a pre-processed OSRM dataset. The repo does not include the large `.osrm*` files.
+
+**Option A: Download Mumbai PBF and process with Docker**
 
 ```bash
-docker run -t -i -p 5001:5000 -v "$(pwd)":/data ghcr.io/project-osrm/osrm-backend:latest osrm-routed /data/data/Bombay.osrm
+mkdir -p data
+# On BBBike Bombay page, download: Protocolbuffer (PBF) 23M
+# https://download.bbbike.org/osm/bbbike/Bombay/
+# Save the .osm.pbf file as data/Bombay.osm.pbf, then:
+
+docker run -t -v "$(pwd)/data":/data ghcr.io/project-osrm/osrm-backend:latest osrm-extract -p /opt/car.lua /data/Bombay.osm.pbf
+docker run -t -v "$(pwd)/data":/data ghcr.io/project-osrm/osrm-backend:latest osrm-partition /data/Bombay.osrm
+docker run -t -v "$(pwd)/data":/data ghcr.io/project-osrm/osrm-backend:latest osrm-customize /data/Bombay.osrm
 ```
 
-### 3. Generate data & train models
+**Option B:** If you already have a folder with `Bombay.osrm` and all `Bombay.osrm.*` files, put it in `data/` so the path is `data/Bombay.osrm`.
+
+> **If you see "Could not find any metrics for CH"**: Your data was built with the MLD pipeline. Start the server with `--algorithm MLD` (see step 3 below). If you never ran partition/customize, run those two steps first.
+
+### 3. Start OSRM (Mumbai routing)
+
+Data is prepared with the MLD pipeline, so use `--algorithm MLD`:
+
+```bash
+docker run -t -i -p 5001:5000 -v "$(pwd)":/data ghcr.io/project-osrm/osrm-backend:latest osrm-routed --algorithm MLD /data/data/Bombay.osrm
+```
+
+### 4. Generate data & train models
 
 ```bash
 cd ml
@@ -31,7 +54,7 @@ jupyter notebook
 # Run 02_model_training.ipynb
 ```
 
-### 4. Start API
+### 5. Start API
 
 ```bash
 uvicorn api.main:app --reload --port 8000
