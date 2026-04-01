@@ -1,6 +1,7 @@
 from datetime import datetime, timezone, timedelta
 
 from fastapi import FastAPI, HTTPException, Query
+from pydantic import BaseModel, Field
 from fastapi.middleware.cors import CORSMiddleware
 
 from .routing import get_route, get_distance_duration, fallback_route_response
@@ -22,6 +23,19 @@ def health():
     return {"status": "ok"}
 
 
+class BatchSimEvalBody(BaseModel):
+    n: int = Field(20, ge=1, le=500, description="Number of random O/D simulation draws")
+    seed: int | None = Field(None, description="RNG seed for reproducibility")
+
+
+@app.post("/simulation/batch-eval")
+async def simulation_batch_eval(body: BatchSimEvalBody):
+    """Run random Mumbai O/D batch, compare ML vs baselines, save under simulation_performance/."""
+    from . import simulation_performance as sim_perf
+
+    return await sim_perf.run_batch_eval(body.n, body.seed)
+
+
 @app.get("/route")
 async def route(
     origin_lat: float = Query(..., description="Pickup latitude"),
@@ -30,7 +44,13 @@ async def route(
     dest_lng: float = Query(..., description="Drop longitude"),
     overview: bool = Query(False, description="Include route geometry (coordinates) for map display"),
 ):
-    """Get shortest route with distance and duration. Use overview=true for polyline coordinates."""
+    """Get shortest route with distance and duration. Use overview=true for polyline coordinates. Endpoints must be within Greater Mumbai."""
+    from .routing import is_in_mumbai
+
+    if not is_in_mumbai(origin_lat, origin_lng):
+        raise HTTPException(status_code=400, detail="Origin must be within Greater Mumbai.")
+    if not is_in_mumbai(dest_lat, dest_lng):
+        raise HTTPException(status_code=400, detail="Destination must be within Greater Mumbai.")
     result = await get_route(origin_lat, origin_lng, dest_lat, dest_lng, with_geometry=overview)
     if result is None:
         if overview:

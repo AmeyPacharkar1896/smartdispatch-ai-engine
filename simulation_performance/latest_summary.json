@@ -1,0 +1,97 @@
+{
+  "created_at": "2026-03-25T09:18:10.725073+00:00",
+  "n_requested": 100,
+  "n_completed": 100,
+  "n_skipped": 0,
+  "seed": null,
+  "travel_time": {
+    "n": 100,
+    "unit": "min",
+    "truth_label": "OSRM route duration_min",
+    "mae_naive_vs_osrm": 19.4693,
+    "rmse_naive": 23.072891,
+    "r2_naive": -11.042233,
+    "accuracy_within_10pct_naive": 0.0,
+    "mae_ml_vs_osrm": 0.8473,
+    "rmse_ml": 1.062451,
+    "r2_ml": 0.974466,
+    "accuracy_within_10pct_ml": 76.0,
+    "improvement_vs_naive_pct": 95.648
+  },
+  "pricing": {
+    "n": 100,
+    "unit": "INR",
+    "truth_label": "Training-aligned synthetic price (ml/01_data_generation: base+dist+weight+volume, \u00d7 urgency \u00d7 demand; no label jitter)",
+    "mae_ml_vs_reference": 20.9323,
+    "mae_distance_baseline_vs_reference": 111.0735,
+    "rmse_ml": 30.358077,
+    "r2_ml": 0.981693,
+    "r2_baseline": 0.531306,
+    "accuracy_within_10pct_ml": 78.0,
+    "accuracy_within_10pct_baseline": 21.0,
+    "improvement_vs_distance_baseline_pct": 81.155
+  },
+  "comparison": {
+    "notebook_evaluation_file": "docs/evaluation_report.json",
+    "notebook_travel_mae_ml": 0.7452375744852091,
+    "notebook_travel_mae_baseline": 1.4449735995462458,
+    "notebook_pricing_mae_ml": 16.32243282207696,
+    "notebook_pricing_mae_baseline": 172.39989987828454,
+    "this_batch_travel_mae_ml": 0.8473,
+    "this_batch_travel_mae_naive_vs_osrm": 19.4693,
+    "this_batch_price_mae_ml": 20.9323,
+    "this_batch_price_mae_dist_baseline": 111.0735,
+    "note": "Notebook metrics use held-out CSV labels; batch uses OSRM as travel truth and the same synthetic pricing formula as ml/01_data_generation (deterministic) for price. Pricing batch is now comparable in spirit to notebook pricing metrics."
+  },
+  "notebook_evaluation_snapshot": {
+    "travel_time": {
+      "mae_ml": 0.7452375744852091,
+      "mae_baseline": 1.4449735995462458,
+      "r2_ml": 0.9779004145796046,
+      "r2_baseline": 0.9303434590436279,
+      "accuracy_pct": 75.91623036649214,
+      "accuracy_baseline_pct": 51.30890052356021,
+      "n_test": 191,
+      "unit": "min",
+      "improvement_pct": 48.42552315701612,
+      "note": "ML adds hour/day_of_week - captures time-of-day effects vs static distance/speed",
+      "vs_baseline": "48.4% better than baseline"
+    },
+    "pricing": {
+      "mae_ml": 16.32243282207696,
+      "mae_baseline": 172.39989987828454,
+      "r2_ml": 0.9946447678675836,
+      "r2_baseline": 0.4475630876896607,
+      "accuracy_pct": 96.3,
+      "accuracy_baseline_pct": 17.2,
+      "n_test": 1000,
+      "unit": "INR",
+      "improvement_pct": 90.53222604328616,
+      "note": "Baseline = distance-only. With real data, ML can learn demand/urgency patterns.",
+      "vs_baseline": "90.5% better than baseline"
+    },
+    "demand": {
+      "mae_ml": 1.7625213923287308,
+      "mae_baseline": 1.8529411764705883,
+      "r2_ml": 0.1912686018948534,
+      "r2_baseline": -0.006248915118902909,
+      "accuracy_pct": 29.411764705882355,
+      "accuracy_baseline_pct": 35.294117647058826,
+      "n_test": 34,
+      "unit": "requests",
+      "improvement_pct": 4.879797874322467,
+      "note": "LightGBM + cyclic hour + is_rush. Accuracy = % within 20% of actual (small counts).",
+      "vs_baseline": "4.9% better than baseline"
+    },
+    "hotspots": {
+      "silhouette": 0.758330352588812,
+      "n_clusters": 10,
+      "n_points": 1910,
+      "note": "0.5+ = good separation"
+    }
+  },
+  "saved_to": "simulation_performance/run_20260325_091810.json",
+  "charts_generated": true,
+  "charts_directory": "docs/charts/simulation",
+  "run_file": "simulation_performance/run_20260325_091810.json"
+}
